@@ -2,191 +2,251 @@
 
 ## 🎓 Exercícios Práticos 10 e 12
 
-### 📌 Exercício 10 - Utilizando a estrutura de tabelas:
+---
 
-🔷 10 - Desenvolvimento Full-Stack (Laravel + Vue.js)
-📝 Texto Original
+# 📌 Exercício 10 – Desenvolvimento Full-Stack (Laravel + Vue.js)
 
-Crie um pequeno CRUD de produtos utilizando Laravel para o backend e Vue.js no frontend.
+## 📝 Texto Original
+
+Crie um pequeno CRUD de produtos utilizando Laravel para o backend e Vue.js no frontend.  
 A aplicação deve permitir criação, leitura, atualização e deleção (CRUD) de produtos.
 
 Cada produto deve conter:
-Nome, Descrição, Preço e Imagem
 
-Requisitos:
-Backend em Laravel: Criar modelo, migration, controller e rotas REST para cada ação.
-Frontend em Vue.js: Criar interface para consumir a API e exibir os produtos.
-Autenticação: Apenas usuários autenticados podem modificar produtos.
+- Nome  
+- Descrição  
+- Preço  
+- Imagem  
 
-📌 Análise da Questão
+### Requisitos
+
+- **Backend em Laravel:** Criar model, migration, controller e rotas REST para cada ação.  
+- **Frontend em Vue.js:** Criar interface para consumir a API e exibir os produtos.  
+- **Autenticação:** Apenas usuários autenticados podem modificar produtos.
+
+---
+
+## 📊 Análise da Questão
 
 Essa questão avalia:
 
-Capacidade real de construir aplicação full-stack
+- Capacidade real de construir aplicação full-stack  
+- Estruturação de API REST  
+- Integração frontend + backend  
+- Controle de autenticação  
+- Upload e armazenamento de imagem  
+- Organização de código  
+- Segurança e validação  
+- Maturidade arquitetural  
 
-Estruturação de API REST
-
-Integração frontend + backend
-
-Controle de autenticação
-
-Upload e armazenamento de imagem
-
-Organização de código
-
-Segurança e validação
-
-Maturidade arquitetural
-
-Não é apenas “fazer CRUD”.
-
+Não é apenas “fazer CRUD”.  
 É demonstrar domínio da arquitetura.
 
-📌 Pontos Técnicos Importantes
+---
 
-Backend:
+## 🧠 Pontos Técnicos Importantes
 
-Model bem estruturado
+### 🔷 Backend
 
-Migration correta (tipos adequados)
+- Model bem estruturado  
+- Migration com tipos corretos  
+- Validação com **FormRequest**  
+- Upload via **Storage**  
+- Uso de **API Resource** para padronização de resposta  
+- Middleware de autenticação (Sanctum)  
+- Paginação na listagem  
 
-Validação com FormRequest
+### 🔷 Frontend
 
-Upload via Storage
+- Componentização adequada  
+- Axios configurado corretamente  
+- Tratamento de erro consistente  
+- Feedback visual (success/error/loading)  
+- Separação entre listagem e formulário  
 
-API Resource para padronizar resposta
+---
 
-Middleware de autenticação (Sanctum)
+## 🚀 Orientação Profissional para Resolver
 
-Paginação
+### 🔹 Estrutura da Migration
 
-Frontend:
+- `string nome`
+- `text descricao`
+- `decimal preco`
+- `string imagem`
+- `timestamps`
 
-Componentização
+---
 
-Axios configurado
+### 🔹 Validação
 
-Tratamento de erro
+- Criar **FormRequest** específico para Produto
+- Validar:
+  - nome obrigatório
+  - descricao obrigatória
+  - preco numérico positivo
+  - imagem do tipo válido (jpg, png etc)
 
-Feedback visual
+---
 
-Separação entre listagem e formulário
+### 🔹 Upload de Imagem
 
-📌 Orientação Profissional para Resolver
+- Utilizar `Storage`
+- Salvar em `storage/app/public`
+- Criar link simbólico com `php artisan storage:link`
+- Armazenar apenas o caminho no banco
 
-Criar migration com:
+---
 
-string nome
+### 🔹 Rotas REST
 
-text descricao
-
-decimal preco
-
-string imagem
-
-timestamps
-
-Criar FormRequest para validação.
-
-Configurar upload de imagem usando storage público.
-
-Criar rotas via:
-
+```php
 Route::apiResource('produtos', ProdutoController::class);
+```
 
-Proteger rotas de modificação com:
+Proteger rotas de modificação:
 
-middleware('auth:sanctum')
+```php
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('produtos', ProdutoController::class)->except(['index', 'show']);
+});
+``` 
 
-No frontend:
+## 🔹 Frontend Vue
 
-Criar tela de listagem
+- Criar tela de listagem de produtos  
+- Criar formulário reutilizável (create/edit)  
+- Configurar Axios com interceptors  
+- Implementar feedback visual  
+- Tratar loading e erros  
 
-Criar formulário reutilizável
+---
 
-Usar axios com interceptors
+## 🔹 Documentação
 
-Implementar feedback de sucesso/erro
+Registrar no README:
 
-Documentar no README as decisões tomadas.
+- Decisões arquiteturais  
+- Estrutura escolhida  
+- Justificativas técnicas  
+- Como rodar backend e frontend  
 
+---
 
-🔷 12 - Front-end (Checkout)
-📝 Texto Original
+# 📌 Exercício 12 – Front-end (Checkout)
 
-Desenvolver uma página para a finalização de uma compra.
+## 📝 Texto Original
+
+Desenvolver uma página para finalização de compra.  
 Os produtos na sacola/carrinho serão hardcoded.
 
-Deve conter as seguintes funcionalidades:
+### Funcionalidades exigidas:
 
-Validação de campos com formatos específicos (cartão, data, cep, e-mail, telefone etc)
+- Validação de campos com formatos específicos (cartão, data, CEP, e-mail, telefone etc)  
+- Validação de campos vazios  
+- Alteração da quantidade dos produtos  
+- Carregamento do endereço a partir do CEP utilizando `cep-promise`  
+- Indicadores de carregamento  
+- Mensagem de sucesso ao fechar o pedido  
+- Exibir objeto final no console  
 
-Validação de campos vazios
+---
 
-Alteração da quantidade dos produtos
-
-Carregamento do endereço a partir do CEP utilizando cep-promise
-
-Indicadores de carregamento
-
-Mensagem de sucesso ao fechar o pedido
-
-Exibir objeto final no console
-
-📌 Análise da Questão
+## 📊 Análise da Questão
 
 Avalia:
 
-Manipulação de formulário complexa
+- Manipulação de formulário complexo  
+- Controle de estado  
+- Validações avançadas  
+- Comunicação assíncrona  
+- UX  
+- Organização de componentes  
 
-Controle de estado
+---
 
-Validações avançadas
+## 🧠 Pontos Técnicos Importantes
 
-Comunicação assíncrona
+- Regex para validações específicas  
+- Uso correto do `cep-promise`  
+- Controle de loading  
+- Atualização reativa do total  
+- Prevenção de quantidade negativa  
+- Estruturação correta do objeto final  
+- Separação lógica entre seções do formulário  
 
-UX
+---
 
-Organização de componentes
+## 🚀 Orientação Profissional para Resolver
 
-📌 Pontos Técnicos Importantes
+### 🔹 Separação de Componentes
 
-Regex para validação
+- `FormContato`  
+- `FormEntrega`  
+- `FormPagamento`  
+- `ResumoCarrinho`  
 
-Uso do cep-promise
+---
 
-Controle de loading
+### 🔹 Validação
 
-Atualização reativa de total
+- Criar função central de validação  
+- Validar campos obrigatórios  
+- Validar formatos com regex  
+- Bloquear submissão se inválido  
 
-Prevenção de quantidade negativa
+---
 
-Objeto final estruturado
+### 🔹 CEP
 
-📌 Orientação Profissional para Resolver
+- Utilizar `cep-promise`  
+- Implementar `try/catch`  
+- Exibir loading durante requisição  
+- Preencher campos automaticamente  
 
-Separar componentes:
+---
 
-FormContato
+### 🔹 Carrinho
 
-FormEntrega
+- Controlar quantidade via estado reativo  
+- Impedir valores negativos  
+- Atualizar total automaticamente  
 
-FormPagamento
+---
 
-ResumoCarrinho
+### 🔹 Finalização
 
-Criar função central de validação.
+Ao clicar em **"Fechar Pedido"**:
 
-Implementar loading state com spinner.
+1. Validar todos os campos  
+2. Exibir mensagem de sucesso  
+3. Consolidar objeto final  
+4. Exibir com `console.log()`  
 
-Usar try/catch no CEP.
+---
 
-Ao finalizar:
+### 🔹 Boas Práticas Adicionais
 
-Validar tudo
+- Garantir acessibilidade mínima:
+  - Labels associadas corretamente  
+  - Uso de `required`  
+  - Atributos `aria` quando necessário  
 
-Mostrar mensagem
+- Separar lógica de validação da UI  
+- Manter código organizado e legível  
 
-console.log do objeto consolidado
+---
 
-Garantir acessibilidade mínima (labels associadas, required, aria).
+# 🎯 Conclusão Estratégica
+
+As questões 10 e 12 avaliam implementação prática real.
+
+Demonstram:
+
+- Capacidade técnica full-stack  
+- Organização arquitetural  
+- Preocupação com segurança  
+- Qualidade de UX  
+- Maturidade profissional  
+
+Executando essas tarefas com clareza estrutural e boas práticas, evidencia-se domínio técnico consistente e nível pleno real.
