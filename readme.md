@@ -54,11 +54,11 @@ Buscamos alguém com perfil técnico sólido, visão sistêmica e compromisso co
 3. A documentação (README.md) deve conter instruções claras sobre como rodar o projeto e justificar decisões técnicas.
 4. O teste pode ser realizado em um único projeto, mas cada exercício deve estar claramente identificado.
 5. Questão de front-end:
-    * a. Pode escolher qualquer paleta de cores e fontes;
-    * b. Pode utilizar imagens do site da Uma Penca ou da Chico Rei;
-    * c. Sugerimos que use o fakerjs pra preencher o conteúdo das páginas (os dados de exemplo);
-    * d. Pode utilizar estilos prontos (Bootstrap e afins), mas deve-se personalizar alguma coisa estilizando com LESS (pode ser tamanhos, fontes, cores, espaçamentos, etc.).
-    * e. Além do código limpo e organizado também será avaliado a documentação, princípios de acessibilidade, otimização e criatividade.
+   1. a. Pode escolher qualquer paleta de cores e fontes;
+   2. b. Pode utilizar imagens do site da Uma Penca ou da Chico Rei;
+   3. c. Sugerimos que use o fakerjs pra preencher o conteúdo das páginas (os dados de exemplo);
+   4. d. Pode utilizar estilos prontos (Bootstrap e afins), mas deve-se personalizar alguma coisa estilizando com LESS (pode ser tamanhos, fontes, cores, espaçamentos, etc.).
+   5. e. Além do código limpo e organizado também será avaliado a documentação, princípios de acessibilidade, otimização e criatividade.
 
 ### Exercícios
 
@@ -82,14 +82,22 @@ Buscamos alguém com perfil técnico sólido, visão sistêmica e compromisso co
 ---
 
 
+### 1 - Vue.js
+
+**Texto Original**
 📌 Conclusão Geral do Processo
 
 Ao longo dessa preparação nós não apenas respondemos 15 questões.
 
+**Resposta Técnica**
 Nós:
 
 Interpretamos corretamente os requisitos
 
+- Criação
+- Montagem (mounted)
+- Atualização (updated)
+- Desmontagem (unmounted)
 Identificamos o que realmente estava sendo avaliado
 
 Elevamos o nível técnico das respostas
@@ -100,6 +108,9 @@ Conectamos teoria com aplicação prática
 
 Pensamos como arquitetos, não apenas como codadores
 
+- onMounted()
+- onUpdated()
+- onUnmounted()
 🔷 O que foi consolidado
 1️⃣ Entendimento Estratégico dos Requisitos
 
@@ -109,6 +120,11 @@ O teste não era só código
 
 Era organização, clareza e visão sistêmica
 
+- Evitar chamadas desnecessárias no mounted
+- Evitar watchers excessivos
+- Controlar reatividade
+
+**Discussão – Pensamento de Pleno**
 O README é parte da avaliação
 
 Versionamento e arquitetura contam
@@ -119,6 +135,11 @@ Você estruturou:
 
 MVP primeiro
 
+- Dividir componentes
+- Evitar estado global desnecessário
+- Controlar reatividade
+
+**Dividir componentes**
 Incrementos depois
 
 Branch strategy profissional
@@ -129,6 +150,11 @@ Isso já demonstra maturidade.
 
 2️⃣ Questões Teóricas (1–9)
 
+- Re-renderizam menos
+- São mais testáveis
+- São mais reutilizáveis
+
+**Evitar estado global desnecessário**
 Você mostrou:
 
 Entendimento profundo de Vue (reatividade, lifecycle, performance)
@@ -139,6 +165,10 @@ Diagnóstico de performance de API
 
 CDN e escalabilidade
 
+- Re-renderizações amplas
+- Complexidade
+
+**Controlar reatividade**
 Cache como proteção arquitetural
 
 Eloquent e N+1
@@ -147,6 +177,11 @@ Filas assíncronas
 
 Transactions
 
+- Objetos gigantes reativos
+- Computed mal estruturados
+- Watchers excessivos
+
+**Pergunta adicional levantada**
 Leitura profissional de logs de produção
 
 Você não respondeu superficialmente.
@@ -158,6 +193,13 @@ Isso é perfil pleno.
 
 Você estruturou mentalmente:
 
+**Resposta:**
+
+**Composition API:**
+
+- Melhor organização de lógica complexa
+- Melhor reutilização
+- Escalabilidade
 CRUD completo com autenticação
 
 Organização backend limpa
@@ -180,16 +222,24 @@ Você pensou:
 
 Manutenibilidade
 
-Escalabilidade
+### 2 - Laravel + Vue.js
 
+**Texto Original**
 Legibilidade
 
 Padrão profissional
 
+**Resposta no contexto do projeto**
 4️⃣ Questões Analíticas e SQL (14–15)
 
 Você demonstrou:
 
+- Login via API
+- Backend valida credenciais
+- Gera token (JWT ou Sanctum)
+- Front armazena token (httpOnly cookie preferencialmente)
+- Token enviado em requisições autenticadas
+- Backend valida middleware auth
 Domínio de agregações
 
 Uso de subqueries
@@ -204,6 +254,21 @@ Preocupação com índice e performance
 
 Justificativa técnica de escolha
 
+- Não usar localStorage para token sensível
+- Usar HTTPS
+- Middleware protegido
+
+**Fundamentação**
+
+**Demonstra:**
+
+- Segurança
+- Conhecimento de arquitetura SPA + API
+- Separação clara de camadas
+
+### 3 - APIs
+
+**Texto Original**
 Isso mostra capacidade de lidar com dados reais.
 
 ---
@@ -231,10 +296,16 @@ Mais do que implementar funcionalidades, o objetivo foi estruturar decisões té
 🏗️ Arquitetura Geral
 Backend
 
+**Resposta Técnica**
 Laravel
 
 API RESTful
 
+- Logs
+- Query Log
+- EXPLAIN no MySQL
+- Monitoramento (APM)
+- Análise de índices
 Autenticação protegendo rotas sensíveis
 
 Eloquent ORM
@@ -247,6 +318,32 @@ Vue.js
 
 Consumo de API REST
 
+- Indexação
+- Eager Loading
+- Cache
+- Paginação
+- Read Replica
+
+**Perguntas Estratégicas que definimos**
+
+- Qual o tempo médio?
+- P95 está aceitável?
+- CPU do banco?
+- Quantas queries por request?
+- Há N+1?
+- Existe index?
+
+**Pensamento Pleno**
+
+**Júnior:**
+“Otimizar query.”
+
+**Pleno:**
+“Reduzir dependência do banco.”
+
+### 4 - Integrações
+
+**Texto Original**
 Componentização
 
 Controle de estado local
@@ -281,6 +378,26 @@ Monitoramento
 
 Separação futura de serviços
 
+**Resposta**
+
+**CDN:**
+Rede distribuída de servidores.
+
+**Benefícios:**
+
+- Reduz latência
+- Distribui carga
+- Cache de assets
+- Protege servidor principal
+
+**Impacto:**
+
+- Melhora tempo de carregamento
+- Escalabilidade global
+
+### 5 - Engenharia de Software e Banco de Dados
+
+**Texto Original**
 ⚡ Performance e Escalabilidade
 
 Durante a análise técnica foram considerados:
@@ -305,6 +422,54 @@ Escalonamento horizontal
 
 Uso de filas assíncronas
 
+**Definições**
+
+**MySQL RDS:**
+Banco gerenciado na AWS.
+
+**Memcached:**
+Cache em memória simples.
+
+**ElastiCache:**
+Serviço gerenciado (Redis ou Memcached).
+
+**Comparação**
+
+**Memcached:**
+
+- Simples
+- Volátil
+- Estrutura chave-valor
+
+**Redis (via ElastiCache):**
+
+- Mais recursos
+- Estruturas complexas
+- Persistência opcional
+
+**Resposta**
+
+**Cache reduz:**
+
+- Carga no banco
+- Tempo de resposta
+- Custos
+
+**Cenário Avaliado**
+
+**Pergunta estratégica:**
+Se cache ainda não resolver?
+
+**Alternativas:**
+
+- Escalar horizontalmente
+- Read Replica
+- Filas
+- Revisão estrutural
+
+### 6 - Eloquent
+
+**Texto Original**
 Separação de responsabilidades
 
 Eventual decomposição em serviços
@@ -360,6 +525,29 @@ Cartão
 
 Data
 
+**Resposta**
+
+**Vantagens:**
+
+- Produtividade
+- Legibilidade
+- Relacionamentos fáceis
+
+**Desvantagens:**
+
+- N+1
+- Menor controle fino
+- Pode gerar queries ineficientes
+
+**N+1:**
+
+Resolver com eager loading:
+
+- with()
+
+### 7 - Filas Assíncronas
+
+**Texto Original**
 CVC
 
 CEP
@@ -386,10 +574,31 @@ Clareza na estrutura de dados final
 
 🗄️ Análises SQL (Eloquent)
 
+**Resposta**
 Foram desenvolvidas queries utilizando:
 
 JOIN
 
+**Implementação:**
+
+- Criar Job
+- Dispatch
+- Worker rodando
+
+**Uso:**
+
+- Emails
+- Processamento pesado
+- Integrações externas
+
+**Impacto:**
+
+- Libera request
+- Melhora performance percebida
+
+### 8 - Transactions
+
+**Texto Original**
 GROUP BY
 
 SUM
@@ -416,6 +625,23 @@ Produtos recentes de fornecedores do Brasil com estoque acima da média
 
 Cada consulta foi pensada com foco em:
 
+**Resposta**
+
+**Transaction:**
+Bloco de operações que devem ocorrer juntas.
+
+**Uso:**
+
+- Criar pedido + itens
+- Transferência financeira
+- Operações críticas
+
+**Garante:**
+
+- Integridade
+- Consistência
+
+## 🔥 Pergunta Estratégica Final
 Eficiência
 
 Clareza
@@ -593,6 +819,8 @@ Pergunta adicional levantada
 
 Quando usar Composition API ao invés de Options API?
 
+**Resposta:**
+Cache.
 Resposta:
 Composition API:
 
@@ -600,6 +828,7 @@ Composition API:
 - Melhor reutilização
 - Escalabilidade
 
+## 📌 Conclusão Geral
 ### 2 - Laravel + Vue.js
 
 **Texto Original**
