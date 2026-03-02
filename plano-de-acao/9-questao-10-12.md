@@ -68,6 +68,27 @@ Não é apenas “fazer CRUD”.
 
 ## 🚀 Orientação Profissional para Resolver
 
+Vou dividir em 
+  - Fase 1 – Preparação do Ambiente e depois 
+  - Fase 2 – Implementação Backend  
+  - Fase 3 – Frontend
+
+- 🧱 FASE 1 — Configuração do Ambiente de Desenvolvimento
+- 1. Verificar PHP: PHP 8.1.12: php -v ✅ 
+- 2. Confirmar extensão: openssl, pdo, mbstring, tokenizer, xml, ctype, json: php -m ✅ 
+- 3. Verificar Composer ✅ version 2.9.5
+- 4. Verificar Node e NPM:  node -v: v18.20.4 e npm -v: 10.7.0 ✅ 
+- 5. Verificar MySQL: via XAMPP ✅
+- 6. Verificar Git: git --version: 2.46.2 ✅
+
+- 🧱 FASE 2 — Implementação Backend
+- 1. Instalação do Framework Laravel (Criação do esqueleto do projeto): composer create-project laravel/laravel backend ✅
+- 2. Configuração de Ambiente e Banco de Dados (Arquivo .env): phpMySQLAdmin - db_catalogo ✅
+- 3. Criação da Migration e Model Produto (Definição da tabela): php artisan migrate ✅
+- 4. Implementação do ProdutoController e Rotas API (Lógica de CRUD).   ✅
+- 5. Configuração do Armazenamento de Imagens (Link simbólico do Storage). ✅
+- 6. Configuração do Laravel Sanctum (Segurança e Autenticação).
+
 ### 🔹 Estrutura da Migration
 
 - `string nome`
