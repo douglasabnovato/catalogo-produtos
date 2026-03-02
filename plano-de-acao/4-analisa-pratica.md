@@ -1,448 +1,144 @@
-# 💼 Catálogo de Produtos
+# 💼 Catálogo de Produtos - Planejamento e Estratégia
 
 ## 🎓 Análise e Preparação para o Desafio
 
-📌 Objetivo
+### 📌 Objetivo
 
 Este projeto foi desenvolvido como resposta a um desafio técnico Full Stack com foco em:
 
-Organização arquitetural
+* Organização arquitetural.
+* Boas práticas de desenvolvimento.
+* Clareza na separação de responsabilidades.
+* Performance e escalabilidade.
+* Segurança.
+* Qualidade de código.
+* Capacidade analítica (SQL e arquitetura).
 
-Boas práticas de desenvolvimento
+> **Premisa:** Mais do que implementar funcionalidades, o objetivo foi estruturar decisões técnicas de forma consciente e justificável.
 
-Clareza na separação de responsabilidades
+---
 
-Performance e escalabilidade
+## 🏗️ Arquitetura Geral
 
-Segurança
+### Backend
 
-Qualidade de código
+* **Framework:** Laravel.
+* **Tipo:** API RESTful.
+* **Segurança:** Autenticação protegendo rotas sensíveis.
+* **ORM:** Eloquent.
+* **Estrutura:** Baseada em responsabilidades claras (MVC + Services).
 
-Capacidade analítica (SQL e arquitetura)
+### Frontend
 
-Mais do que implementar funcionalidades, o objetivo foi estruturar decisões técnicas de forma consciente e justificável.
+* **Framework:** Vue.js.
+* **Tipo:** SPA (Single Page Application) com consumo de API REST.
+* **Organização:** Componentização e controle de estado local.
+* **UX:** Validações robustas e feedback visual para o usuário.
 
-🏗️ Arquitetura Geral
-Backend
+---
 
-Laravel
-
-API RESTful
-
-Autenticação protegendo rotas sensíveis
-
-Eloquent ORM
-
-Estrutura baseada em responsabilidades claras
-
-Frontend
-
-Vue.js
-
-Consumo de API REST
-
-Componentização
-
-Controle de estado local
-
-Validações robustas
-
-Feedback visual para o usuário
-
-🔐 Segurança Aplicada
+## 🔐 Segurança Aplicada
 
 Foram consideradas as seguintes práticas:
 
-Autenticação obrigatória para operações de modificação (create, update, delete)
-
-Middleware de proteção de rotas
-
-Validação server-side
-
-Controle de permissões
-
-Prevenção contra acesso indevido a recursos
-
-Tratamento seguro de upload de imagem
-
-Arquiteturalmente, o sistema pode evoluir para:
-
-Rate limiting
-
-Cache estruturado
-
-Monitoramento
-
-Separação futura de serviços
-
-⚡ Performance e Escalabilidade
-
-Durante a análise técnica foram considerados:
-
-Uso de eager loading para evitar N+1
-
-Uso de agregações no banco ao invés de processamento em memória
-
-Possibilidade de cache em endpoints de leitura
-
-Uso de índices para consultas agregadas
-
-Ordenação adequada em consultas analíticas
-
-Subqueries otimizadas para média e comparação
-
-Também foi considerado o cenário onde cache não resolve gargalos, sugerindo:
-
-Identificação de bottleneck (CPU, I/O, banco)
-
-Escalonamento horizontal
-
-Uso de filas assíncronas
-
-Separação de responsabilidades
-
-Eventual decomposição em serviços
-
-📦 Funcionalidades Implementadas
-1️⃣ CRUD de Produtos
-
-Cada produto contém:
-
-Nome
-
-Descrição
-
-Preço
-
-Imagem
-
-Operações:
-
-Criar
-
-Listar
-
-Atualizar
-
-Deletar
-
-Regras:
-
-Apenas usuários autenticados podem modificar dados
-
-Validação completa no backend
-
-Interface reativa no frontend
-
-2️⃣ Página de Finalização de Compra
-
-Funcionalidades implementadas:
-
-Produtos hardcoded no carrinho
-
-Alteração dinâmica de quantidade
-
-Validação obrigatória de todos os campos
-
-Validação de formatos:
-
-E-mail
-
-Telefone
-
-Cartão
-
-Data
-
-CVC
-
-CEP
-
-Busca automática de endereço via CEP
-
-Indicadores de carregamento durante requisições
-
-Exibição de mensagem de sucesso
-
-Exibição do objeto final no console ao finalizar pedido
-
-Foram considerados:
-
-Experiência do usuário
-
-Feedback visual
-
-Tratamento de erro
-
-Organização de estado
-
-Clareza na estrutura de dados final
-
-🗄️ Análises SQL (Eloquent)
-
-Foram desenvolvidas queries utilizando:
-
-JOIN
-
-GROUP BY
-
-SUM
-
-AVG
-
-Subqueries
-
-Ordenação estratégica
-
-Filtros por relacionamento
-
-Consultas implementadas:
-
-Estados com maior volume de vendas
-
-Top 5 clientes com maior valor total
-
-Produtos com estoque abaixo da média
-
-Fornecedores com produtos acima da média da categoria
-
-Produtos recentes de fornecedores do Brasil com estoque acima da média
-
-Cada consulta foi pensada com foco em:
-
-Eficiência
-
-Clareza
-
-Redução de processamento desnecessário
-
-Uso correto do banco como motor de agregação
-
-🧩 Análise Crítica de Código
-
-Foi realizada análise crítica de um transformer que acessava múltiplas relações.
-
-Pontos observados:
-
-Risco de N+1
-
-Acoplamento excessivo
-
-Ausência de null safety
-
-Falta de separação de responsabilidade
-
-Melhorias sugeridas:
-
-Uso de eager loading
-
-Resource classes do Laravel
-
-Padronização de resposta
-
-Defensive programming
-
-Possível uso de DTO
-
-🎯 Decisões Arquiteturais
-
-As decisões tomadas ao longo do projeto priorizaram:
-
-Clareza
-
-Manutenibilidade
-
-Escalabilidade futura
-
-Separação de camadas
-
-Performance controlada
-
-Segurança por padrão
-
-A abordagem foi:
-
-Implementar o MVP corretamente
-
-Garantir base sólida
-
-Projetar pensando em evolução futura
-
-📚 Lições Aplicadas
-
-Durante o desenvolvimento foram reforçados conceitos importantes:
-
-O banco deve fazer agregações, não a aplicação
-
-Autenticação não é apenas login, é controle de acesso
-
-Performance começa na modelagem
-
-UX faz parte da qualidade técnica
-
-Código precisa ser justificável
-
-Arquitetura é uma sequência de decisões conscientes
-
-🚀 Conclusão
-
-Este projeto não foi tratado apenas como uma implementação técnica.
-
-Foi conduzido como:
-
-Exercício de arquitetura
-
-Avaliação de boas práticas
-
-Demonstração de pensamento pleno
-
-Estruturação profissional de solução
-
-Cada decisão foi pensada considerando:
-
-O que fazer
-
-Como fazer
-
-Por que fazer
-
-A base construída permite evolução futura para:
-
-Cache estruturado
-
-Filas
-
-Escalabilidade horizontal
-
-Monitoramento
-
-Separação de serviços
-
-O resultado final demonstra capacidade técnica, visão sistêmica e maturidade na tomada de decisão.
-
-
-
-📌 Discussão Estratégica Sobre os Requisitos
-
-1️⃣ Repositório Git
-
-Decisão tomada:
-
-Estrutura de branches:
-
-main (produção estável)
-
-develop (integração)
-
-feature/*
-
-release/*
-
-hotfix/*
-
-Justificativa:
-Demonstra maturidade de versionamento e fluxo colaborativo.
-
-2️⃣ Boas práticas
-
-Definimos que iremos aplicar:
-
-Backend:
-
-Controllers enxutos
-
-Services quando necessário
-
-Repository Pattern (se aplicável)
-
-Validações via FormRequest
-
-Eager Loading para evitar N+1
-
-Frontend:
-
-Componentização clara
-
-Separação de responsabilidades
-
-Evitar estado global desnecessário
-
-Reatividade controlada
-
-3️⃣ README
-
-README conterá:
-
-Como rodar backend
-
-Como rodar frontend
-
-Variáveis de ambiente
-
-Decisões arquiteturais
-
-Justificativa do uso de Tailwind + LESS
-
-Estratégia de cache
-
-Possíveis melhorias futuras
-
-5d – Bootstrap + LESS
-
-Discussão aprofundada:
-
-Você questionou se poderia usar Tailwind.
-
-Análise feita:
-
-Bootstrap:
-
-Visual pré-definido
-
-Rápido
-
-Menos flexível
-
-Tailwind:
-
-Utilitário
-
-Design construído do zero
-
-Maior controle visual
-
-Melhor alinhado com Vue moderno
-
-Decisão:
-Usar Tailwind + LESS.
-
-Separação de responsabilidades:
-
-Tailwind:
-
-Layout
-
-Responsividade
-
-Grid
-
-Espaçamentos
-
-Utilidades rápidas
-
-LESS:
-
-Variáveis globais
-
-Cores base
-
-Tipografia
-
-Customizações estruturais
-
-Regras reutilizáveis
-
-Isso atende o requisito 5d, pois LESS será usado para personalização real.
-
+1.  **Autenticação obrigatória** para operações de modificação (create, update, delete).
+2.  **Middleware de proteção** de rotas (Sanctum).
+3.  **Validação server-side** rigorosa.
+4.  **Controle de permissões** e prevenção contra acesso indevido a recursos.
+5.  **Tratamento seguro** de upload de imagem.
+
+> **Evolução Arquitetural:** O sistema foi desenhado para evoluir para Rate limiting, Cache estruturado e monitoramento.
 
 ---
+
+## ⚡ Performance e Escalabilidade
+
+Durante a análise técnica, foram considerados:
+
+* Uso de **Eager Loading** (`with()`) para evitar o problema de N+1.
+* Uso de **agregações no banco** ao invés de processamento em memória.
+* Uso de **índices** para consultas agregadas e ordenação adequada em consultas analíticas.
+* Subqueries otimizadas para média e comparação.
+
+> **Cenário de Alta Carga:** Identificação de bottlenecks (CPU, I/O, banco), uso de filas assíncronas e eventual decomposição em serviços.
+
+---
+
+## 📦 Funcionalidades Implementadas
+
+### 1️⃣ CRUD de Produtos
+
+* **Campos:** Nome, Descrição, Preço, Imagem.
+* **Regras:** Apenas usuários autenticados podem modificar dados.
+* **Técnico:** Validação completa no backend e interface reativa no frontend.
+
+### 2️⃣ Página de Finalização de Compra (Checkout)
+
+* Produtos *hardcoded* no carrinho.
+* Alteração dinâmica de quantidade.
+* **Validações:** Formatos de E-mail, Telefone, Cartão, Data, CVC e CEP.
+* **UX:** Busca automática de endereço via CEP (`cep-promise`), indicadores de carregamento e mensagem de sucesso.
+* **Debug:** Exibição do objeto final no console ao finalizar pedido.
+
+---
+
+## 🗄️ Análises SQL (Eloquent)
+
+Queries desenvolvidas com foco em eficiência, clareza e redução de processamento:
+
+1.  Estados com maior volume de vendas.
+2.  Top 5 clientes com maior valor total.
+3.  Produtos com estoque abaixo da média.
+4.  Fornecedores com produtos acima da média da categoria.
+5.  Produtos recentes de fornecedores do Brasil com estoque acima da média.
+
+---
+
+## 🧩 Análise Crítica de Código
+
+Análise de um transformer que acessava múltiplas relações, identificando:
+* Risco de N+1 e acoplamento excessivo.
+* Ausência de *null safety* e separação de responsabilidade.
+
+> **Melhorias Sugeridas:** Eager loading, uso de Resource classes, padrão defensive programming e implementação de DTOs.
+
+---
+
+## 🎯 Decisões Arquiteturais e Lições Aprendidas
+
+As decisões priorizaram manutenibilidade e escalabilidade futura:
+
+* **MVP:** Implementar o MVP corretamente garantindo uma base sólida.
+* **Modelagem:** Performance começa na modelagem do banco.
+* **UX:** UX faz parte da qualidade técnica.
+
+---
+
+## 🚀 Conclusão
+
+Este projeto foi conduzido como exercício de arquitetura, focando na demonstração de pensamento pleno e estruturação profissional de soluções.
+
+> **Visão de Futuro:** A base construída permite evolução para cache estruturado, filas, escalabilidade horizontal e monitoramento.
+
+---
+
+## 📌 Discussão Estratégica Sobre os Requisitos
+
+### 1️⃣ Repositório Git
+
+* **Fluxo:** `main` (produção), `develop` (integração), `feature/*`, `release/*`, `hotfix/*`.
+* **Justificativa:** Demonstra maturidade de versionamento e fluxo colaborativo.
+
+### 2️⃣ Boas Práticas
+
+* **Backend:** Controllers enxutos, Services, Validações via FormRequest, Eager Loading.
+* **Frontend:** Componentização clara, reatividade controlada.
+
+### 3️⃣ README
+
+* Estrutura contendo: Como rodar, variáveis de ambiente, decisões arquiteturais, justificativa da stack e melhorias futuras.
+
+### 4️⃣ Personalização (Tailwind + LESS)
+
+* **Decisão:** Usar Tailwind para Layout/Responsividade e LESS para variáveis globais e customizações estruturais.
+* **Justificativa:** Maior controle visual e alinhamento com Vue moderno, atendendo à personalização exigida pelo requisito de LESS.
