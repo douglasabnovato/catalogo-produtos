@@ -4,6 +4,7 @@
 
 ### 📌 Exercício 14 - Utilizando a estrutura de tabelas:
 
+````sql
 CREATE TABLE clientes (
  id INT PRIMARY KEY,
  nome VARCHAR(100),
@@ -18,189 +19,117 @@ CREATE TABLE pedidos (
  valor_total DECIMAL(10,2),
  FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
+````
 
-Escreva:
+#### 📌 Análise da Questão
+Avalia conhecimento em Joins, Group By, Funções de Agregação (SUM), Performance, Índices e uso correto do Eloquent.
 
-Query para listar estados com maior volume de vendas
+#### 📌 Orientação Profissional para Resolver
 
-Query para listar 5 clientes que mais compraram
+1. Query para listar estados com maior volume de vendas:
 
-Melhor forma de otimizar performance
+````sql
+SELECT 
+    c.estado, 
+    SUM(p.valor_total) AS total_vendas
+FROM clientes c
+JOIN pedidos p ON c.id = p.cliente_id
+GROUP BY c.estado
+ORDER BY total_vendas DESC;
+````
 
-📌 Análise da Questão
+2. Query para listar 5 clientes que mais compraram:
 
-Avalia:
+````sql
+SELECT 
+    c.nome, 
+    SUM(p.valor_total) AS total_comprado
+FROM clientes c
+JOIN pedidos p ON c.id = p.cliente_id
+GROUP BY c.id
+ORDER BY total_comprado DESC
+LIMIT 5;
+````
 
-Joins
+3. Melhor forma de otimizar performance:
 
-Group By
+   - Criar índice em pedidos.cliente_id
+   - Criar índice em clientes.estado
+   - Utilizar EXPLAIN para validar uso de índices
+   - Cache de consultas para dados pouco voláteis
+   - Read Replica para cenários de alto tráfego
 
-Sum
+### 📌 Exercício 15 - Consultas Analíticas (Eloquent)
 
-Aggregations
+#### 🔷 Estrutura das Tabelas (Resumo)
 
-Performance
+**Produtos**
+    - id
+    - nome
+    - fornecedor_id
+    - categoria
+    - preco_unit
+    - data_aquisicao
 
-Índices
+**Fornecedores**
+   - id
+   - nome
+   - pais
+   - status
 
-Uso correto do Eloquent
+**Estoque**
+  - id
+  - produto_id
+  - quantidade
+  - data_contagem
 
-📌 Orientação Profissional para Resolver
+##### 🔗 Relacionamentos Esperados no Laravel
 
-Estados com maior volume:
+    - Produto → belongsTo Fornecedor
+    - Produto → hasOne Estoque
 
-Join clientes + pedidos
+#### 🔷 1️⃣ Produtos com estoque abaixo da média geral
 
-groupBy estado
+##### 📌 Estratégia
 
-sum(valor_total)
+    - Calcular média geral da coluna quantidade na tabela estoque
+    - Buscar produtos cujo estoque seja menor que essa média
+    - Relacionar produto + estoque
+    - Evitar N+1 queries
 
-orderBy desc
+##### 📌 Eloquent
 
-Top 5 clientes:
+````php
+    $mediaEstoque = DB::table('estoque')->avg('quantidade');
 
-groupBy cliente
+    $produtosAbaixoMedia = Produto::with('estoque')
+        ->whereHas('estoque', function ($query) use ($mediaEstoque) {
+            $query->where('quantidade', '<', $mediaEstoque);
+        })
+        ->get();   
+````
 
-sum(valor_total)
+##### 📌 Explicação
 
-orderBy desc
+- Primeiro calculamos a média geral.
+- Depois utilizamos whereHas para filtrar pelo relacionamento.
+- O uso de with() evita problema de N+1 query e mantém performance adequada.
 
-limit 5
+#### 🔷 2️⃣ Fornecedores com produtos acima da média da própria categoria
 
-Otimização:
+##### 📌 Estratégia
 
-Índice em cliente_id
+Calcular média por categoria.
 
-Índice em estado
+Comparar preco_unit do produto com média da categoria.
 
-Análise via EXPLAIN
+Exibir: nome fornecedor, nome produto, categoria, preco_unit.
 
-Cache de consulta
+Ordenar por categoria e preço.
 
-Read Replica se necessário
+##### 📌 Eloquent com subquery
 
-🎯 Conclusão Estratégica
-
-As questões 10 a 14 avaliam:
-
-Implementação prática
-
-Arquitetura
-
-Crítica técnica
-
-UX
-
-Performance
-
-Maturidade profissional
-
-Se você executar essas com organização, clareza e fundamentação, você demonstra nível pleno real — não apenas conhecimento técnico isolado.
-
-
-
-15
-
-Vou estruturar assim:
-
-📌 Entendimento da modelagem
-
-📌 Estratégia de cada consulta
-
-📌 Query usando Eloquent
-
-📌 Explicação técnica
-
-📌 Observações de performance
-
-🔷 Estrutura das Tabelas (Resumo)
-Produtos
-
-id
-
-nome
-
-fornecedor_id
-
-categoria
-
-preco_unit
-
-data_aquisicao
-
-Fornecedores
-
-id
-
-nome
-
-pais
-
-status
-
-Estoque
-
-id
-
-produto_id
-
-quantidade
-
-data_contagem
-
-Relacionamentos esperados no Laravel:
-
-Produto belongsTo Fornecedor
-Produto hasOne Estoque
-🔷 1️⃣ Produtos com estoque abaixo da média geral
-📌 Estratégia
-
-Calcular média geral da coluna quantidade na tabela estoque
-
-Buscar produtos cujo estoque seja menor que essa média
-
-Relacionar produto + estoque
-
-📌 Eloquent
-$mediaEstoque = DB::table('estoque')->avg('quantidade');
-
-$produtosAbaixoMedia = Produto::with('estoque')
-    ->whereHas('estoque', function ($query) use ($mediaEstoque) {
-        $query->where('quantidade', '<', $mediaEstoque);
-    })
-    ->get();
-📌 Explicação
-
-Primeiro calculamos a média
-
-Depois usamos whereHas para filtrar relacionamento
-
-Mantemos consulta performática
-
-Evitamos N+1 usando with()
-
-🔷 2️⃣ Fornecedores com produtos acima da média da própria categoria
-📌 Estratégia
-
-Calcular média por categoria
-
-Comparar preço_unit do produto com média da categoria
-
-Exibir:
-
-nome fornecedor
-
-nome produto
-
-categoria
-
-preco_unit
-
-Ordenar por categoria e preço
-
-Essa é uma consulta mais complexa.
-
-📌 Eloquent com subquery
+````php
 $produtos = Produto::select(
         'fornecedores.nome as fornecedor_nome',
         'produtos.nome as produto_nome',
@@ -216,105 +145,47 @@ $produtos = Produto::select(
     ->orderBy('produtos.categoria')
     ->orderBy('produtos.preco_unit', 'desc')
     ->get();
-📌 Explicação
+````
 
-Usamos subquery correlacionada
+##### 📌 Explicação
 
-Comparamos preço com média da própria categoria
+Usamos subquery correlacionada para comparar preço com média da própria categoria e join explícito para controle fino.
 
-Ordenamos conforme solicitado
+#### 🔷 3️⃣ Produtos mais recentes, de fornecedores do Brasil, com estoque acima da média geral
 
-Join explícito para controle fino
+##### 📌 Estratégia
+  - Média geral do estoque.
+  - Filtrar fornecedores do Brasil.
+  - Filtrar estoque acima da média.
+  - Ordenar por data_aquisicao desc (mais recentes).
 
-🔷 3️⃣ Produtos mais recentes, de fornecedores do Brasil, com estoque acima da média geral
-📌 Estratégia
+##### 📌 Eloquent
 
-Média geral do estoque
+````php
+    $mediaEstoque = DB::table('estoque')->avg('quantidade');
 
-Filtrar fornecedores do Brasil
+    $produtos = Produto::select('produtos.*')
+        ->join('fornecedores', 'produtos.fornecedor_id', '=', 'fornecedores.id')
+        ->join('estoque', 'produtos.id', '=', 'estoque.produto_id')
+        ->where('fornecedores.pais', 'Brasil')
+        ->where('estoque.quantidade', '>', $mediaEstoque)
+        ->orderBy('produtos.data_aquisicao', 'desc')
+        ->get();
+````
+##### 📌 Explicação
 
-Filtrar estoque acima da média
+Join explícito para performance, filtros por país/estoque e ordenação por mais recente.
 
-Ordenar por data_aquisicao desc (mais recentes)
+#### 🔷 Observações de Performance (Importante para Pleno)
+Índices recomendados: estoque.produto_id, produtos.fornecedor_id, produtos.categoria, fornecedores.pais.
 
-📌 Eloquent
-$mediaEstoque = DB::table('estoque')->avg('quantidade');
+Consultas agregadas frequentes: Considerar cache, avaliar EXPLAIN e usar índice composto se necessário.
 
-$produtos = Produto::select('produtos.*')
-    ->join('fornecedores', 'produtos.fornecedor_id', '=', 'fornecedores.id')
-    ->join('estoque', 'produtos.id', '=', 'estoque.produto_id')
-    ->where('fornecedores.pais', 'Brasil')
-    ->where('estoque.quantidade', '>', $mediaEstoque)
-    ->orderBy('produtos.data_aquisicao', 'desc')
-    ->get();
-📌 Explicação
+#### 🔷 Justificativa Técnica das Escolhas
+Optei por Eloquent quando possível, join explícito em consultas complexas, subquery para média por categoria e whereHas para manter legibilidade. Isso demonstra entendimento de agregação, uso de subqueries e controle de performance.
 
-Join explícito para performance
+#### 🔷 Conclusão Final
+Essa questão avalia domínio de SQL, entendimento de agregações, uso correto de relacionamentos, capacidade de escrever consultas analíticas e pensamento orientado a dados.
 
-Filtro por país
-
-Filtro por estoque > média
-
-Ordenação por mais recente
-
-🔷 Observações de Performance (Importante para Pleno)
-
-Recomendado criar índices:
-
-estoque.produto_id
-
-produtos.fornecedor_id
-
-produtos.categoria
-
-fornecedores.pais
-
-Para consultas agregadas frequentes:
-
-Considerar cache
-
-Avaliar EXPLAIN
-
-Usar índice composto se necessário
-
-🔷 Justificativa Técnica das Escolhas
-
-Optei por:
-
-Eloquent quando possível
-
-Join explícito em consultas complexas
-
-Subquery para média por categoria
-
-whereHas para manter legibilidade
-
-Separar cálculo de média para clareza
-
-Isso demonstra:
-
-Entendimento de agregação
-
-Uso de subqueries
-
-Controle de performance
-
-Conhecimento relacional
-
-Organização de código
-
-🔷 Conclusão Final
-
-Essa questão avalia:
-
-Domínio de SQL
-
-Entendimento de agregações
-
-Uso correto de relacionamentos
-
-Capacidade de escrever consultas analíticas
-
-Pensamento orientado a dados
-
-Performance
+#### 🎯 Conclusão Estratégica
+As questões 10 a 14 avaliam: Implementação prática, Arquitetura, Crítica técnica, UX, Performance e Maturidade profissional. Se você executar essas com organização, clareza e fundamentação, você demonstra nível pleno real — não apenas conhecimento técnico isolado.
