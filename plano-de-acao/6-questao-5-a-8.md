@@ -4,165 +4,101 @@
 
 ### 📌 Exercício 5 - Em uma aplicação Laravel utilizando MySQL (RDS), por que seria interessante usar Memcached ou ElasticCache? Como essas tecnologias ajudam na escalabilidade?
 
-Definições
+#### Definições
+* **MySQL RDS:** Banco gerenciado na AWS.
+* **Memcached:** Cache em memória simples.
+* **ElastiCache:** Serviço gerenciado (Redis ou Memcached).
 
-MySQL RDS:
-Banco gerenciado na AWS.
+#### Comparação
+* **Memcached:** Simples, volátil, estrutura chave-valor.
+* **Redis (via ElastiCache):** Mais recursos, estruturas complexas, persistência opcional.
 
-Memcached:
-Cache em memória simples.
-
-ElastiCache:
-Serviço gerenciado (Redis ou Memcached).
-
-Comparação
-
-Memcached:
-
-Simples
-
-Volátil
-
-Estrutura chave-valor
-
-Redis (via ElastiCache):
-
-Mais recursos
-
-Estruturas complexas
-
-Persistência opcional
-
-Resposta
-
+#### Resposta
 Cache reduz:
+1.  Carga no banco.
+2.  Tempo de resposta.
+3.  Custos operacionais.
 
-Carga no banco
 
-Tempo de resposta
 
-Custos
+#### Cenário Avaliado – Pensamento Estratégico
+**Pergunta estratégica:** Se cache ainda não resolver?
+**Alternativas:**
+* Escalar horizontalmente.
+* Read Replica.
+* Filas.
+* Revisão estrutural.
 
-Cenário Avaliado
+---
 
-Pergunta estratégica:
-Se cache ainda não resolver?
+### 📌 Exercício 6 - Quais as vantagens e desvantagens em utilizar o Eloquent do Laravel? Existe algum possível problema recorrente (N+1 queries)?
 
-Alternativas:
+#### Resposta
+**Vantagens:**
+* Produtividade e velocidade de desenvolvimento.
+* Legibilidade do código.
+* Facilidade na definição e uso de relacionamentos.
 
-Escalar horizontalmente
+**Desvantagens:**
+* **Problema N+1:** Queries geradas automaticamente que podem impactar a performance.
+* Menor controle fino sobre a query SQL.
+* Pode gerar queries ineficientes se mal utilizado.
 
-Read Replica
+**Solução para N+1:**
+Resolver com Eager Loading usando o método `with()`.
 
-Filas
+---
 
-Revisão estrutural
+### 📌 Exercício 7 - Explique como implementar um sistema de filas assíncronas no Laravel. Para que tipo de funcionalidades essa abordagem é útil?
 
-6 - Eloquent
-Texto Original
+#### Resposta
+Sistema que executa tarefas fora do fluxo HTTP principal.
 
-Quais as vantagens e desvantagens em utilizar o Eloquent do Laravel? Existe algum possível problema recorrente (N+1 queries)?
+**Implementação:**
+1.  Criar `Job`.
+2.  `Dispatch` do job.
+3.  `Worker` rodando em background.
 
-Resposta
+**Uso:**
+* Envio de E-mails.
+* Processamento pesado de arquivos.
+* Integrações externas (APIs de terceiros).
 
-Vantagens:
+**Impacto:**
+* Libera a request HTTP imediatamente para o usuário.
+* Melhora performance percebida.
 
-Produtividade
 
-Legibilidade
 
-Relacionamentos fáceis
+---
 
-Desvantagens:
+### 📌 Exercício 8 - Quando é interessante utilizar transactions?
 
-N+1
+#### Resposta
+**Transaction:** Bloco de operações que devem ocorrer juntas (atomicidade).
 
-Menor controle fino
+**Uso:**
+* Criar pedido + itens.
+* Transferência financeira.
+* Operações críticas onde todas as etapas devem ter sucesso ou nenhuma deve ser aplicada.
 
-Pode gerar queries ineficientes
+**Garante:**
+* Integridade dos dados.
+* Consistência do banco.
 
-N+1:
-Resolver com eager loading:
+---
 
-with()
+### 🔥 Pergunta Estratégica Final
+**Se tivesse que escolher apenas uma prática para proteger sistema de alto tráfego?**
+**Resposta:** Cache.
+**Justificativa:** Maior impacto imediato e reduz dependência do banco.
 
-7 - Filas Assíncronas
-Texto Original
+---
 
-Explique como implementar um sistema de filas assíncronas no Laravel. Para que tipo de funcionalidades essa abordagem é útil?
-
-Resposta
-
-Sistema que executa tarefas fora do fluxo HTTP.
-
-Implementação:
-
-Criar Job
-
-Dispatch
-
-Worker rodando
-
-Uso:
-
-Emails
-
-Processamento pesado
-
-Integrações externas
-
-Impacto:
-
-Libera request
-
-Melhora performance percebida
-
-8 - Transactions
-Texto Original
-
-Quando é interessante utilizar transactions?
-
-Resposta
-
-Transaction:
-Bloco de operações que devem ocorrer juntas.
-
-Uso:
-
-Criar pedido + itens
-
-Transferência financeira
-
-Operações críticas
-
-Garante:
-
-Integridade
-
-Consistência
-
-🔥 Pergunta Estratégica Final
-
-Se tivesse que escolher apenas uma prática para proteger sistema de alto tráfego?
-
-Resposta:
-Cache.
-
-Maior impacto imediato.
-Reduz dependência do banco.
-
-📌 Conclusão Geral
-
+### 📌 Conclusão Geral
 Essa consolidação mostra:
-
-Pensamento arquitetural
-
-Visão de escalabilidade
-
-Separação de responsabilidades
-
-Preocupação com performance
-
-Maturidade em versionamento
-
-Defesa técnica fundamentada
+* Pensamento arquitetural.
+* Visão de escalabilidade.
+* Separação de responsabilidades.
+* Preocupação com performance.
+* Maturidade em versionamento e defesa técnica fundamentada.
