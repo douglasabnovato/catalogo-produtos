@@ -54,11 +54,11 @@ Buscamos alguém com perfil técnico sólido, visão sistêmica e compromisso co
 3. A documentação (README.md) deve conter instruções claras sobre como rodar o projeto e justificar decisões técnicas.
 4. O teste pode ser realizado em um único projeto, mas cada exercício deve estar claramente identificado.
 5. Questão de front-end:
-    * a. Pode escolher qualquer paleta de cores e fontes;
-    * b. Pode utilizar imagens do site da Uma Penca ou da Chico Rei;
-    * c. Sugerimos que use o fakerjs pra preencher o conteúdo das páginas (os dados de exemplo);
-    * d. Pode utilizar estilos prontos (Bootstrap e afins), mas deve-se personalizar alguma coisa estilizando com LESS (pode ser tamanhos, fontes, cores, espaçamentos, etc.).
-    * e. Além do código limpo e organizado também será avaliado a documentação, princípios de acessibilidade, otimização e criatividade.
+   1. a. Pode escolher qualquer paleta de cores e fontes;
+   2. b. Pode utilizar imagens do site da Uma Penca ou da Chico Rei;
+   3. c. Sugerimos que use o fakerjs pra preencher o conteúdo das páginas (os dados de exemplo);
+   4. d. Pode utilizar estilos prontos (Bootstrap e afins), mas deve-se personalizar alguma coisa estilizando com LESS (pode ser tamanhos, fontes, cores, espaçamentos, etc.).
+   5. e. Além do código limpo e organizado também será avaliado a documentação, princípios de acessibilidade, otimização e criatividade.
 
 ### Exercícios
 
@@ -83,372 +83,314 @@ Buscamos alguém com perfil técnico sólido, visão sistêmica e compromisso co
 
 ## Planejamento do Projeto
 
-1 - Vue.js
-Texto Original
+### 1 - Vue.js
+
+**Texto Original**
 
 Explique como funciona o ciclo de vida de um componente em Vue.js e como isso influencia na performance de uma aplicação.
 
-Resposta Técnica
+**Resposta Técnica**
 
 O ciclo de vida de um componente Vue envolve:
 
-Criação
-
-Montagem (mounted)
-
-Atualização (updated)
-
-Desmontagem (unmounted)
+- Criação
+- Montagem (mounted)
+- Atualização (updated)
+- Desmontagem (unmounted)
 
 Hooks importantes:
 
-onMounted()
-
-onUpdated()
-
-onUnmounted()
+- onMounted()
+- onUpdated()
+- onUnmounted()
 
 Impacto na performance:
 
-Evitar chamadas desnecessárias no mounted
+- Evitar chamadas desnecessárias no mounted
+- Evitar watchers excessivos
+- Controlar reatividade
 
-Evitar watchers excessivos
-
-Controlar reatividade
-
-Discussão – Pensamento de Pleno
+**Discussão – Pensamento de Pleno**
 
 Você destacou:
 
-Dividir componentes
+- Dividir componentes
+- Evitar estado global desnecessário
+- Controlar reatividade
 
-Evitar estado global desnecessário
-
-Controlar reatividade
-
-Dividir componentes
+**Dividir componentes**
 
 Componentes menores:
 
-Re-renderizam menos
+- Re-renderizam menos
+- São mais testáveis
+- São mais reutilizáveis
 
-São mais testáveis
-
-São mais reutilizáveis
-
-Evitar estado global desnecessário
+**Evitar estado global desnecessário**
 
 Estado global mal usado:
 
-Re-renderizações amplas
+- Re-renderizações amplas
+- Complexidade
 
-Complexidade
-
-Controlar reatividade
+**Controlar reatividade**
 
 Evitar:
 
-Objetos gigantes reativos
+- Objetos gigantes reativos
+- Computed mal estruturados
+- Watchers excessivos
 
-Computed mal estruturados
-
-Watchers excessivos
-
-Pergunta adicional levantada
+**Pergunta adicional levantada**
 
 Quando usar Composition API ao invés de Options API?
 
-Resposta:
-Composition API:
+**Resposta:**
 
-Melhor organização de lógica complexa
+**Composition API:**
 
-Melhor reutilização
+- Melhor organização de lógica complexa
+- Melhor reutilização
+- Escalabilidade
 
-Escalabilidade
+### 2 - Laravel + Vue.js
 
-2 - Laravel + Vue.js
-Texto Original
+**Texto Original**
 
 Em aplicações Laravel + Vue.js, qual é a melhor abordagem para lidar com autenticação entre o frontend e o backend?
 
-Resposta no contexto do projeto
+**Resposta no contexto do projeto**
 
 Fluxo seguro:
 
-Login via API
-
-Backend valida credenciais
-
-Gera token (JWT ou Sanctum)
-
-Front armazena token (httpOnly cookie preferencialmente)
-
-Token enviado em requisições autenticadas
-
-Backend valida middleware auth
+- Login via API
+- Backend valida credenciais
+- Gera token (JWT ou Sanctum)
+- Front armazena token (httpOnly cookie preferencialmente)
+- Token enviado em requisições autenticadas
+- Backend valida middleware auth
 
 Boas práticas:
 
-Não usar localStorage para token sensível
+- Não usar localStorage para token sensível
+- Usar HTTPS
+- Middleware protegido
 
-Usar HTTPS
+**Fundamentação**
 
-Middleware protegido
+**Demonstra:**
 
-Fundamentação
+- Segurança
+- Conhecimento de arquitetura SPA + API
+- Separação clara de camadas
 
-Demonstra:
+### 3 - APIs
 
-Segurança
-
-Conhecimento de arquitetura SPA + API
-
-Separação clara de camadas
-
-3 - APIs
-Texto Original
+**Texto Original**
 
 Um endpoint da API está demorando muito para responder. Quais técnicas você usaria para identificar e resolver esse problema no backend?
 
-Resposta Técnica
+**Resposta Técnica**
 
 Diagnóstico:
 
-Logs
-
-Query Log
-
-EXPLAIN no MySQL
-
-Monitoramento (APM)
-
-Análise de índices
+- Logs
+- Query Log
+- EXPLAIN no MySQL
+- Monitoramento (APM)
+- Análise de índices
 
 Soluções:
 
-Indexação
+- Indexação
+- Eager Loading
+- Cache
+- Paginação
+- Read Replica
 
-Eager Loading
+**Perguntas Estratégicas que definimos**
 
-Cache
+- Qual o tempo médio?
+- P95 está aceitável?
+- CPU do banco?
+- Quantas queries por request?
+- Há N+1?
+- Existe index?
 
-Paginação
+**Pensamento Pleno**
 
-Read Replica
-
-Perguntas Estratégicas que definimos
-
-Qual o tempo médio?
-
-P95 está aceitável?
-
-CPU do banco?
-
-Quantas queries por request?
-
-Há N+1?
-
-Existe index?
-
-Pensamento Pleno
-
-Júnior:
+**Júnior:**
 “Otimizar query.”
 
-Pleno:
+**Pleno:**
 “Reduzir dependência do banco.”
 
-4 - Integrações
-Texto Original
+### 4 - Integrações
+
+**Texto Original**
 
 Como a utilização de CDN melhora a performance de uma aplicação web?
 
-Resposta
+**Resposta**
 
-CDN:
+**CDN:**
 Rede distribuída de servidores.
 
-Benefícios:
+**Benefícios:**
 
-Reduz latência
+- Reduz latência
+- Distribui carga
+- Cache de assets
+- Protege servidor principal
 
-Distribui carga
+**Impacto:**
 
-Cache de assets
+- Melhora tempo de carregamento
+- Escalabilidade global
 
-Protege servidor principal
+### 5 - Engenharia de Software e Banco de Dados
 
-Impacto:
-
-Melhora tempo de carregamento
-
-Escalabilidade global
-
-5 - Engenharia de Software e Banco de Dados
-Texto Original
+**Texto Original**
 
 Em uma aplicação Laravel utilizando MySQL (RDS), por que seria interessante usar Memcached ou ElasticCache? Como essas tecnologias ajudam na escalabilidade?
 
-Definições
+**Definições**
 
-MySQL RDS:
+**MySQL RDS:**
 Banco gerenciado na AWS.
 
-Memcached:
+**Memcached:**
 Cache em memória simples.
 
-ElastiCache:
+**ElastiCache:**
 Serviço gerenciado (Redis ou Memcached).
 
-Comparação
+**Comparação**
 
-Memcached:
+**Memcached:**
 
-Simples
+- Simples
+- Volátil
+- Estrutura chave-valor
 
-Volátil
+**Redis (via ElastiCache):**
 
-Estrutura chave-valor
+- Mais recursos
+- Estruturas complexas
+- Persistência opcional
 
-Redis (via ElastiCache):
+**Resposta**
 
-Mais recursos
+**Cache reduz:**
 
-Estruturas complexas
+- Carga no banco
+- Tempo de resposta
+- Custos
 
-Persistência opcional
+**Cenário Avaliado**
 
-Resposta
-
-Cache reduz:
-
-Carga no banco
-
-Tempo de resposta
-
-Custos
-
-Cenário Avaliado
-
-Pergunta estratégica:
+**Pergunta estratégica:**
 Se cache ainda não resolver?
 
-Alternativas:
+**Alternativas:**
 
-Escalar horizontalmente
+- Escalar horizontalmente
+- Read Replica
+- Filas
+- Revisão estrutural
 
-Read Replica
+### 6 - Eloquent
 
-Filas
-
-Revisão estrutural
-
-6 - Eloquent
-Texto Original
+**Texto Original**
 
 Quais as vantagens e desvantagens em utilizar o Eloquent do Laravel? Existe algum possível problema recorrente (N+1 queries)?
 
-Resposta
+**Resposta**
 
-Vantagens:
+**Vantagens:**
 
-Produtividade
+- Produtividade
+- Legibilidade
+- Relacionamentos fáceis
 
-Legibilidade
+**Desvantagens:**
 
-Relacionamentos fáceis
+- N+1
+- Menor controle fino
+- Pode gerar queries ineficientes
 
-Desvantagens:
+**N+1:**
 
-N+1
-
-Menor controle fino
-
-Pode gerar queries ineficientes
-
-N+1:
 Resolver com eager loading:
 
-with()
+- with()
 
-7 - Filas Assíncronas
-Texto Original
+### 7 - Filas Assíncronas
+
+**Texto Original**
 
 Explique como implementar um sistema de filas assíncronas no Laravel. Para que tipo de funcionalidades essa abordagem é útil?
 
-Resposta
+**Resposta**
 
 Sistema que executa tarefas fora do fluxo HTTP.
 
-Implementação:
+**Implementação:**
 
-Criar Job
+- Criar Job
+- Dispatch
+- Worker rodando
 
-Dispatch
+**Uso:**
 
-Worker rodando
+- Emails
+- Processamento pesado
+- Integrações externas
 
-Uso:
+**Impacto:**
 
-Emails
+- Libera request
+- Melhora performance percebida
 
-Processamento pesado
+### 8 - Transactions
 
-Integrações externas
-
-Impacto:
-
-Libera request
-
-Melhora performance percebida
-
-8 - Transactions
-Texto Original
+**Texto Original**
 
 Quando é interessante utilizar transactions?
 
-Resposta
+**Resposta**
 
-Transaction:
+**Transaction:**
 Bloco de operações que devem ocorrer juntas.
 
-Uso:
+**Uso:**
 
-Criar pedido + itens
+- Criar pedido + itens
+- Transferência financeira
+- Operações críticas
 
-Transferência financeira
+**Garante:**
 
-Operações críticas
+- Integridade
+- Consistência
 
-Garante:
-
-Integridade
-
-Consistência
-
-🔥 Pergunta Estratégica Final
+## 🔥 Pergunta Estratégica Final
 
 Se tivesse que escolher apenas uma prática para proteger sistema de alto tráfego?
 
-Resposta:
+**Resposta:**
 Cache.
 
 Maior impacto imediato.
 Reduz dependência do banco.
 
-📌 Conclusão Geral
+## 📌 Conclusão Geral
 
 Essa consolidação mostra:
 
-Pensamento arquitetural
-
-Visão de escalabilidade
-
-Separação de responsabilidades
-
-Preocupação com performance
-
-Maturidade em versionamento
-
-Defesa técnica fundamentada
+- Pensamento arquitetural
+- Visão de escalabilidade
+- Separação de responsabilidades
+- Preocupação com performance
+- Maturidade em versionamento
+- Defesa técnica fundamentada
