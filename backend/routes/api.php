@@ -3,16 +3,20 @@
 use App\Http\Controllers\Api\ProdutoController;
 use Illuminate\Support\Facades\Route;
 
-// Rota para buscar os dados que preencherão o formulário
-Route::get('/produtos/{id}', [ProdutoController::class, 'show']);
-
-// Rota para salvar a alteração
-Route::put('/produtos/{id}', [ProdutoController::class, 'update']);
-
-// Rotas protegidas (Criar, Editar, Deletar)
 /*
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('produtos', [ProdutoController::class, 'store']);
-    Route::put('produtos/{produto}', [ProdutoController::class, 'update']);
-    Route::delete('produtos/{produto}', [ProdutoController::class, 'destroy']);
-});*/
+|--------------------------------------------------------------------------
+| API Routes - learnTECH Ecosystem
+|--------------------------------------------------------------------------
+*/
+
+/**
+ * Usando apiResource, o Laravel cria automaticamente:
+ * GET    /api/produtos          -> index   (Lista todos)
+ * POST   /api/produtos          -> store   (Cria novo)
+ * GET    /api/produtos/{id}     -> show    (Busca um para editar)
+ * PUT    /api/produtos/{id}     -> update  (Salva edição)
+ * DELETE /api/produtos/{id}     -> destroy (Exclui)
+ */
+Route::apiResource('produtos', ProdutoController::class);
+
+// Caso precise de rotas customizadas no futuro, adicione abaixo do resource.

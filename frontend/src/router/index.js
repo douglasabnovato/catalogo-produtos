@@ -9,7 +9,7 @@ const routes = [
     path: "/",
     name: "Home",
     component: ListaProdutos,
-    meta: { title: "Vitrine learnTECH" },
+    meta: { title: "Vitrine" },
   },
   {
     path: "/produtos/novo",

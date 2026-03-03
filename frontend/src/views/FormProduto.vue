@@ -297,3 +297,99 @@
   pointer-events: none;
 }
 </style>
+<script>
+import api from "../services/api";
+import HeaderPrincipal from "../components/HeaderPrincipal.vue";
+
+export default {
+  name: "FormProduto",
+  components: { HeaderPrincipal },
+  data() {
+    return {
+      // Captura o ID da URL se existir (ex: /edit/6)
+      id: this.$route.params.id || null,
+      carregando: false,
+      imageLabel: "Selecionar Foto",
+      previewImage: null,
+      produto: {
+        nome: "",
+        descricao: "",
+        preco: "",
+        imagem: null,
+      },
+    };
+  },
+  mounted() {
+    // Se existir ID, o componente entra em modo de edição e busca os dados
+    if (this.id) {
+      this.buscarProduto();
+    }
+  },
+  methods: {
+    // Busca os dados do produto no Laravel
+    async buscarProduto() {
+      this.carregando = true;
+      try {
+        const response = await api.get(`/produtos/${this.id}`);
+        this.produto = response.data;
+        this.imageLabel = "Alterar Foto";
+      } catch (error) {
+        console.error("Erro ao carregar produto:", error);
+        alert("Produto não encontrado.");
+        this.$router.push("/");
+      } finally {
+        this.carregando = false;
+      }
+    },
+
+    // Gera a URL da imagem vinda do storage do Laravel
+    getUrl(img) {
+      if (!img) return "";
+      // Se for uma string (URL do banco), monta o caminho do storage
+      return `http://localhost:8000/storage/${img}`;
+    },
+
+    // Gerencia a troca de imagem e o preview local
+    onFileChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        this.produto.imagem = file;
+        this.imageLabel = file.name;
+        this.previewImage = URL.createObjectURL(file);
+      }
+    },
+
+    // Envia os dados para o Backend
+    async salvarProduto() {
+      this.carregando = true;
+
+      const formData = new FormData();
+      formData.append("nome", this.produto.nome);
+      formData.append("descricao", this.produto.descricao);
+      formData.append("preco", this.produto.preco);
+
+      // Só envia a imagem se ela for um novo arquivo selecionado
+      if (this.produto.imagem instanceof File) {
+        formData.append("imagem", this.produto.imagem);
+      }
+
+      try {
+        if (this.id) {
+          // IMPORTANTE: Method Spoofing para o Laravel aceitar multipart em PUT
+          formData.append("_method", "PUT");
+          await api.post(`/produtos/${this.id}`, formData);
+        } else {
+          await api.post("/produtos", formData);
+        }
+
+        this.$router.push("/");
+      } catch (error) {
+        console.error("Erro ao salvar:", error);
+        alert("Ocorreu um erro ao salvar o produto.");
+      } finally {
+        this.carregando = false;
+      }
+    },
+  },
+};
+</script>

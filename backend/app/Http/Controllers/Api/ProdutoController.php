@@ -9,81 +9,97 @@ use Illuminate\Support\Facades\Storage;
 
 class ProdutoController extends Controller
 {
-    // Listar todos os produtos (GET)
+    /**
+     * GET /api/produtos
+     * Alimenta a 'ListaProdutos.vue'
+     */
     public function index()
     {
-        return response()->json(Produto::all());
+        // Retorna todos os produtos ordenados pelos mais recentes
+        return response()->json(Produto::orderBy('created_at', 'desc')->get());
     }
 
-    // Criar um novo produto (POST)
+    /**
+     * POST /api/produtos
+     * Recebe os dados do 'FormProduto.vue' (Novo)
+     */
     public function store(Request $request)
     {
-        // 1. Validação dos dados
         $request->validate([
-            'nome' => 'required|string|max:255',
+            'nome'      => 'required|string|max:255',
+            'preco'     => 'required|numeric',
             'descricao' => 'required|string',
-            'preco' => 'required|numeric',
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif|max:5120', // 2048 2MB Max
+            'imagem'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $data = $request->all();
+        $dados = $request->all();
 
-        // 2. Upload de Imagem
         if ($request->hasFile('imagem')) {
+            // Salva na pasta 'public/produtos' e guarda o caminho no banco
             $path = $request->file('imagem')->store('produtos', 'public');
-            $data['imagem'] = $path;
+            $dados['imagem'] = $path;
         }
 
-        $produto = Produto::create($data);
-
-        return response()->json($produto, 201); // 201 = Created
+        $produto = Produto::create($dados);
+        return response()->json($produto, 201);
     }
 
-    // Mostrar um único produto (GET)
+    /**
+     * GET /api/produtos/{id}
+     * Alimenta o formulário de edição (Modo Editar)
+     */
     public function show($id)
     {
-        return Produto::findOrFail($id); // Retorna o produto 6 para o Vue
-    }
+        $produto = Produto::find($id);
 
-
-    public function update(Request $request, Produto $produto)
-    {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'required|string',
-            'preco' => 'required|numeric',
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $data = $request->all();
-
-        // Upload de nova imagem se houver
-        if ($request->hasFile('imagem')) {
-            // Apaga a imagem antiga
-            if ($produto->imagem) {
-                Storage::disk('public')->delete($produto->imagem);
-            }
-            $path = $request->file('imagem')->store('produtos', 'public');
-            $data['imagem'] = $path;
+        if (!$produto) {
+            return response()->json(['message' => 'Produto não encontrado'], 404);
         }
-
-        $produto->update($data);
 
         return response()->json($produto);
     }
 
-
-
-    // Deletar um produto (DELETE)
-    public function destroy(Produto $produto)
+    /**
+     * PUT /api/produtos/{id} (via Method Spoofing POST)
+     * Salva as alterações do 'FormProduto.vue' (Editar)
+     */
+    public function update(Request $request, $id)
     {
-        // Apaga a imagem do storage
+        $produto = Produto::findOrFail($id);
+
+        $request->validate([
+            'nome'  => 'required|string|max:255',
+            'preco' => 'required|numeric',
+        ]);
+
+        $dados = $request->all();
+
+        if ($request->hasFile('imagem')) {
+            // 1. Deleta a imagem antiga para não entulhar o servidor
+            if ($produto->imagem) {
+                Storage::disk('public')->delete($produto->imagem);
+            }
+            // 2. Salva a nova
+            $path = $request->file('imagem')->store('produtos', 'public');
+            $dados['imagem'] = $path;
+        }
+
+        $produto->update($dados);
+        return response()->json($produto);
+    }
+
+    /**
+     * DELETE /api/produtos/{id}
+     */
+    public function destroy($id)
+    {
+        $produto = Produto::findOrFail($id);
+
         if ($produto->imagem) {
             Storage::disk('public')->delete($produto->imagem);
         }
 
         $produto->delete();
-
-        return response()->json(null, 204); // 204 = No Content
+        return response()->json(['message' => 'Removido com sucesso']);
     }
 }
