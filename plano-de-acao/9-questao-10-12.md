@@ -1,6 +1,6 @@
 # 💼 Catálogo de Produtos
 
-## 🎓 Exercícios Práticos 10 e 12
+## 🎓 Exercícios Práticos 10 e 12 ⏳✅
 
 ---
 
@@ -69,9 +69,11 @@ Não é apenas “fazer CRUD”.
 ## 🚀 Orientação Profissional para Resolver
 
 Vou dividir em 
+
   - Fase 1 – Preparação do Ambiente e depois 
   - Fase 2 – Implementação Backend  
   - Fase 3 – Frontend
+  - Fase 4 - Testar de Integração 
 
 - 🧱 FASE 1 — Configuração do Ambiente de Desenvolvimento
 - 1. Verificar PHP: PHP 8.1.12: php -v ✅ 
@@ -87,7 +89,21 @@ Vou dividir em
 - 3. Criação da Migration e Model Produto (Definição da tabela): php artisan migrate ✅
 - 4. Implementação do ProdutoController e Rotas API (Lógica de CRUD).   ✅
 - 5. Configuração do Armazenamento de Imagens (Link simbólico do Storage). ✅
-- 6. Configuração do Laravel Sanctum (Segurança e Autenticação).
+- 6. Configuração do Laravel Sanctum (Segurança e Autenticação). ✅
+
+- 🧱 FASE 3 – Frontend
+- 1. Criação do Projeto Vue.js (via Vite). upgrade para node-v24.14.0-x64 ✅
+- 2. Instalação de Dependências (Axios, Router, etc). ✅
+- 3. Configuração da Conexão com a API (Axios e CORS). ✅
+- 4. Desenvolvimento das Telas (Components) (CRUD) : ListaProdutos, Formulario. ✅
+
+- 🧪 FASE 4 – Testar de Integração 
+- 1. Acessar a Aplicação ⏳
+- 2. Criar um Produto (Upload de Imagem) ✅
+  - Upload de imagem com erro ⏳
+- 3. Listar Produtos ✅
+- 4. Editar um Produto ✅
+- 5. Excluir um Produto ✅
 
 ### 🔹 Estrutura da Migration
 

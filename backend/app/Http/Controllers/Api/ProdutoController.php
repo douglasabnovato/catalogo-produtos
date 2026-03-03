@@ -23,7 +23,7 @@ class ProdutoController extends Controller
             'nome' => 'required|string|max:255',
             'descricao' => 'required|string',
             'preco' => 'required|numeric',
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB Max
+            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif|max:5120', // 2048 2MB Max
         ]);
 
         $data = $request->all();
@@ -31,7 +31,7 @@ class ProdutoController extends Controller
         // 2. Upload de Imagem
         if ($request->hasFile('imagem')) {
             $path = $request->file('imagem')->store('produtos', 'public');
-            $data['imagem'] = $path; // Salva o caminho no banco
+            $data['imagem'] = $path;
         }
 
         $produto = Produto::create($data);
