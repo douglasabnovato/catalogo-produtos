@@ -1,6 +1,6 @@
 {
     "name": "douglasabnovato/catalogoprodutos",
-    "description": "catalogo de produtos",
+    "description": "Meu Catálogo",
     "autoload": {
         "psr-4": {
             "Douglasabnovato\\Catalogoprodutos\\": "src/"

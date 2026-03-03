@@ -1,6 +1,6 @@
 # 💼 Catálogo de Produtos
 
-## 🎓 Exercícios Práticos 10 e 12
+## 🎓 Exercícios Práticos 10 e 12 ⏳✅
 
 ---
 
@@ -64,14 +64,28 @@ Não é apenas “fazer CRUD”.
 - Feedback visual (success/error/loading)  
 - Separação entre listagem e formulário  
 
+### 🔹 Estrutura da Migration
+
+- `string nome`
+- `text descricao`
+- `decimal preco`
+- `string imagem`
+- `timestamps`
+
 ---
 
 ## 🚀 Orientação Profissional para Resolver
 
 Vou dividir em 
+
   - Fase 1 – Preparação do Ambiente e depois 
   - Fase 2 – Implementação Backend  
   - Fase 3 – Frontend
+  - Fase 4 - Testar de Integração
+  - Fase 5 - Backend: Validação com FormRequest 
+  - Fase 6 - Backend: API Resource para Padronização
+  - Fase 7 - Autenticação
+  - Fase 8 - Paginação
 
 - 🧱 FASE 1 — Configuração do Ambiente de Desenvolvimento
 - 1. Verificar PHP: PHP 8.1.12: php -v ✅ 
@@ -87,15 +101,42 @@ Vou dividir em
 - 3. Criação da Migration e Model Produto (Definição da tabela): php artisan migrate ✅
 - 4. Implementação do ProdutoController e Rotas API (Lógica de CRUD).   ✅
 - 5. Configuração do Armazenamento de Imagens (Link simbólico do Storage). ✅
-- 6. Configuração do Laravel Sanctum (Segurança e Autenticação).
+- 6. Configuração do Laravel Sanctum (Segurança e Autenticação). ✅
 
-### 🔹 Estrutura da Migration
+- 🧱 FASE 3 – Frontend
+- 1. Criação do Projeto Vue.js (via Vite). upgrade para node-v24.14.0-x64 ✅
+- 2. Instalação de Dependências (Axios, Router, etc). ✅
+- 3. Configuração da Conexão com a API (Axios e CORS). ✅
+- 4. Desenvolvimento das Telas (Components) (CRUD) : ListaProdutos, Formulario. ✅
 
-- `string nome`
-- `text descricao`
-- `decimal preco`
-- `string imagem`
-- `timestamps`
+- 🧪 FASE 4 – Testar de Integração 
+- 1. Acessar a Aplicação ✅
+- 2. Criar um Produto (Upload de Imagem) ✅
+  - Upload de imagem com erro ✅
+- 3. Listar Produtos ✅
+- 4. Editar um Produto ✅
+- 5. Excluir um Produto ✅
+
+- 📂 Fase 5 — Backend: Validação com FormRequest 
+- 1. Criar o arquivo de Request via Artisan: php artisan make:request ProdutoRequest
+- 2. Configurar as regras de validação para nome, descricao, preco e imagem (verificando tipos e tamanhos).
+- 3. Injetar o ProdutoRequest nos métodos store e update do Controller.
+
+- 📂 Fase 6 — Backend: API Resource para Padronização
+- 1. Criar o Resource: php artisan make:resource ProdutoResource
+- 2. Definir no Resource que o campo imagem deve retornar a URL completa usando Storage::url().
+- 3. Atualizar o Controller para retornar new ProdutoResource($produto) em vez do modelo puro.
+
+- 📂 Fase 7 — Autenticação (Laravel Sanctum)
+- 1. Configurar o Laravel Sanctum (vem por padrão no Laravel 11).
+- 2. Ajustar o api.php para envolver as rotas de modificação (store, update, destroy) no middleware auth:sanctum.
+- 3. No Vue, criar a tela de Login e armazenar o token de acesso no localStorage.
+- 4. Configurar o Interceptor do Axios para enviar esse Token em todas as requisições automaticamente.
+
+- 📂 Fase 8 — Paginação
+- 1. No Controller, trocar Produto::all() por Produto::paginate(10).
+- 2. No Vue (ListaProdutos.vue), capturar os dados da paginação (página atual, última página).
+- 3. Adicionar botões "Anterior" e "Próximo" que disparam novas chamadas para a API (ex: api/produtos?page=2).
 
 ---
 
