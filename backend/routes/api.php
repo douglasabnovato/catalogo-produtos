@@ -3,8 +3,11 @@
 use App\Http\Controllers\Api\ProdutoController;
 use Illuminate\Support\Facades\Route;
 
-// GET (index/show), POST (store), PUT/PATCH (update) e DELETE (destroy)
-Route::apiResource('produtos', ProdutoController::class);
+// Rota para buscar os dados que preencherão o formulário
+Route::get('/produtos/{id}', [ProdutoController::class, 'show']);
+
+// Rota para salvar a alteração
+Route::put('/produtos/{id}', [ProdutoController::class, 'update']);
 
 // Rotas protegidas (Criar, Editar, Deletar)
 /*

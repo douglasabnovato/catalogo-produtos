@@ -40,12 +40,12 @@ class ProdutoController extends Controller
     }
 
     // Mostrar um único produto (GET)
-    public function show(Produto $produto)
+    public function show($id)
     {
-        return response()->json($produto);
+        return Produto::findOrFail($id); // Retorna o produto 6 para o Vue
     }
 
-    // Atualizar um produto (PUT/PATCH)
+
     public function update(Request $request, Produto $produto)
     {
         $request->validate([
@@ -71,6 +71,8 @@ class ProdutoController extends Controller
 
         return response()->json($produto);
     }
+
+
 
     // Deletar um produto (DELETE)
     public function destroy(Produto $produto)
