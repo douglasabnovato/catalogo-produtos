@@ -9,79 +9,59 @@ use Illuminate\Support\Facades\Storage;
 
 class ProdutoController extends Controller
 {
-    // Listar todos os produtos (GET)
     public function index()
     {
-        return response()->json(Produto::all());
+        return Produto::orderBy('created_at', 'desc')->get();
     }
 
-    // Criar um novo produto (POST)
     public function store(Request $request)
     {
-        // 1. Validação dos dados
+        // Validação simples direto no controller para não travar o cadastro
         $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'required|string',
-            'preco' => 'required|numeric',
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB Max
+            'nome' => 'required|string',
+            'preco' => 'required',
+            'descricao' => 'required',
+            'imagem' => 'nullable|image'
         ]);
 
-        $data = $request->all();
+        $dados = $request->all();
 
-        // 2. Upload de Imagem
         if ($request->hasFile('imagem')) {
-            $path = $request->file('imagem')->store('produtos', 'public');
-            $data['imagem'] = $path; // Salva o caminho no banco
+            $dados['imagem'] = $request->file('imagem')->store('produtos', 'public');
         }
 
-        $produto = Produto::create($data);
-
-        return response()->json($produto, 201); // 201 = Created
+        $produto = Produto::create($dados);
+        return response()->json($produto, 201);
     }
 
-    // Mostrar um único produto (GET)
-    public function show(Produto $produto)
+    public function show($id)
     {
-        return response()->json($produto);
+        return Produto::findOrFail($id);
     }
 
-    // Atualizar um produto (PUT/PATCH)
-    public function update(Request $request, Produto $produto)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'required|string',
-            'preco' => 'required|numeric',
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $produto = Produto::findOrFail($id);
+        $dados = $request->all();
 
-        $data = $request->all();
-
-        // Upload de nova imagem se houver
         if ($request->hasFile('imagem')) {
-            // Apaga a imagem antiga
             if ($produto->imagem) {
                 Storage::disk('public')->delete($produto->imagem);
             }
-            $path = $request->file('imagem')->store('produtos', 'public');
-            $data['imagem'] = $path;
+            $dados['imagem'] = $request->file('imagem')->store('produtos', 'public');
         }
 
-        $produto->update($data);
-
+        $produto->update($dados);
         return response()->json($produto);
     }
 
-    // Deletar um produto (DELETE)
-    public function destroy(Produto $produto)
+    public function destroy($id)
     {
-        // Apaga a imagem do storage
+        $produto = Produto::findOrFail($id);
         if ($produto->imagem) {
             Storage::disk('public')->delete($produto->imagem);
         }
-
         $produto->delete();
-
-        return response()->json(null, 204); // 204 = No Content
+        return response()->json(['message' => 'Excluído']);
     }
 }
