@@ -30,6 +30,12 @@ Este projeto foi desenvolvido como resposta a um desafio técnico Full Stack com
     - [Frontend](#frontend)
   - [🛠️ Como Rodar o Projeto](#️-como-rodar-o-projeto)
     - [Pré-requisitos](#pré-requisitos)
+    - [Inicializar o Projeto](#inicializar-o-projeto)
+      - [Entre na pasta do backend (ajuste o caminho se necessário)](#entre-na-pasta-do-backend-ajuste-o-caminho-se-necessário)
+      - [Garanta que as tabelas existam no banco do XAMPP](#garanta-que-as-tabelas-existam-no-banco-do-xampp)
+      - [Crie o link para as imagens aparecerem no navegador](#crie-o-link-para-as-imagens-aparecerem-no-navegador)
+      - [Inicie o servidor do Laravel](#inicie-o-servidor-do-laravel)
+    - [Primeira Vez](#primeira-vez)
     - [1. Configuração do Backend](#1-configuração-do-backend)
     - [2. Configuração do Frontend](#2-configuração-do-frontend)
     - [📁 Plano de Ação (Documentação Técnica)](#-plano-de-ação-documentação-técnica)
@@ -71,7 +77,32 @@ Este projeto foi desenvolvido como resposta a um desafio técnico Full Stack com
 * Node.js >= 18
 * MySQL ou MariaDB
 
+### Inicializar o Projeto
+
+🔍 Resumo da Arquitetura em ExecuçãoCom esses comandos, seu projeto estará operando assim:
+
+Componente: Status Esperado
+XAMPP: Apache e MySQL em verde (Running).
+Terminal 1: Laravel rodando (PHP Artisan Serve).
+Terminal 2: Vite pronto (NPM Run Dev).
+Navegador: http://localhost:5173 aberto com sua vitrine.
+
+#### Entre na pasta do backend (ajuste o caminho se necessário)
+cd C:\douglasabnovato-github\catalogo-produtos\backend
+
+#### Garanta que as tabelas existam no banco do XAMPP
+php artisan migrate
+
+#### Crie o link para as imagens aparecerem no navegador
+php artisan storage:link
+
+#### Inicie o servidor do Laravel
+php artisan serve
+
+### Primeira Vez
+
 ### 1. Configuração do Backend
+
 ```bash
 # Clone o repositório
 git clone <url-do-repositorio>
