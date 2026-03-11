@@ -2,6 +2,15 @@
 
 **Que oportunidade massa esse projeto**
 
+- Home 
+![Home](./github/tela-1.jpg)
+
+- Busca pelo Título
+![Busca pelo Título](./github/tela-2.jpg)
+
+- CRUD Funcionando
+![CRUD Funcionando](./github/tela-3.jpg)
+
 ## 🎓 Análise e Preparação para o Desafio
 
 Este projeto foi desenvolvido como resposta a um desafio técnico Full Stack com foco em organização arquitetural, boas práticas de desenvolvimento e performance.
@@ -86,6 +95,12 @@ XAMPP: Apache e MySQL em verde (Running).
 Terminal 1: Laravel rodando (PHP Artisan Serve).
 Terminal 2: Vite pronto (NPM Run Dev).
 Navegador: http://localhost:5173 aberto com sua vitrine.
+
+- XAMPP
+![XAMPP](./github/tela-4.jpg)
+
+- Ambiente
+![Ambiente](./github/tela-5.jpg)
 
 #### Entre na pasta do backend (ajuste o caminho se necessário)
 cd C:\douglasabnovato-github\catalogo-produtos\backend
