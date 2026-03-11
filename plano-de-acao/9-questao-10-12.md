@@ -78,10 +78,10 @@ Não é apenas “fazer CRUD”.
 
 Vou dividir em 
 
-  - Fase 1 – Preparação do Ambiente e depois 
-  - Fase 2 – Implementação Backend  
-  - Fase 3 – Frontend
-  - Fase 4 - Testar de Integração
+  - Fase 1 – Preparação do Ambiente e depois ✅  
+  - Fase 2 – Implementação Backend ✅  
+  - Fase 3 – Frontend ✅ 
+  - Fase 4 - Testar de Integração ✅ 
   - Fase 5 - Backend: Validação com FormRequest 
   - Fase 6 - Backend: API Resource para Padronização
   - Fase 7 - Autenticação
