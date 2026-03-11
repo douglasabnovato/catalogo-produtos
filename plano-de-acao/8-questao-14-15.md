@@ -65,11 +65,11 @@ class Pedido extends Model {
 
 1. Query para listar estados com maior volume de vendas:
 
-Objetivo: 
+Objetivo:
 
 - somar o valor total dos pedidos agrupados por estado.
 
-SQL: 
+SQL:
 
 - usa JOIN, SUM, GROUP BY.
 
@@ -98,14 +98,13 @@ Explicação:
 - Soma os valores.
 - Ordena do maior para o menor.
 
-
 2. Query para listar 5 clientes que mais compraram:
 
-Objetivo: 
+Objetivo:
 
 - identificar os clientes com maior gasto acumulado.
 
-SQL: 
+SQL:
 
 - GROUP BY cliente, SUM, LIMIT 5.
 
@@ -134,7 +133,7 @@ Explicação:
 - Junta clientes e pedidos.
 - Agrupa por cliente.
 - Soma os valores.
-- Ordena. 
+- Ordena.
 - limita aos 5 primeiros.
 
 3. Melhor forma de otimizar performance:
@@ -143,21 +142,45 @@ Objetivo: garantir que consultas sejam rápidas mesmo com muitos dados.
 
 Estratégias:
 
-   - Criar índice em pedidos.cliente_id >> acelera o join.
-   - Criar índice em clientes.estado >> acelera agrupamento por estado.
-   - Utilizar EXPLAIN para verificar se índices estão sendo usados.
-   - Cache de consultas: 
-     - guardar o resultado de uma query (consulta ao banco) em memória ou em um sistema de cache (Redis, Memcached). Assim, quando a mesma consulta é feita novamente, o sistema retorna o resultado já armazenado, sem precisar executar a query no banco.
-     - Em consultas de relatórios ou dados que não mudam com frequência (ex.: ranking de clientes, volume de vendas por estado). Ideal para dados pouco voláteis, ou seja, que não se alteram a cada segundo.
-   - Read Replica: é como ter clones do banco só para leitura, permitindo que relatórios e consultas pesadas não atrapalhem as operações críticas de escrita.
-     - É uma cópia do banco de dados principal (master), mas usada apenas para operações de leitura. O banco principal continua recebendo escritas (INSERT, UPDATE, DELETE). As réplicas recebem essas alterações de forma assíncrona e ficam disponíveis para consultas (SELECT).
-     - Em cenários de alto tráfego onde muitas consultas de leitura sobrecarregam o banco principal. Em relatórios e dashboards, que fazem muitas queries pesadas de leitura. Para distribuir carga entre múltiplos servidores e aumentar escalabilidade. 
+- Criar índice em pedidos.cliente_id >> acelera o join.
+- Criar índice em clientes.estado >> acelera agrupamento por estado.
+- Utilizar EXPLAIN para verificar se índices estão sendo usados.
+- Cache de consultas:
+  - guardar o resultado de uma query (consulta ao banco) em memória ou em um sistema de cache (Redis, Memcached). Assim, quando a mesma consulta é feita novamente, o sistema retorna o resultado já armazenado, sem precisar executar a query no banco.
+  - Em consultas de relatórios ou dados que não mudam com frequência (ex.: ranking de clientes, volume de vendas por estado). Ideal para dados pouco voláteis, ou seja, que não se alteram a cada segundo.
+- Read Replica: é como ter clones do banco só para leitura, permitindo que relatórios e consultas pesadas não atrapalhem as operações críticas de escrita.
+  - É uma cópia do banco de dados principal (master), mas usada apenas para operações de leitura. O banco principal continua recebendo escritas (INSERT, UPDATE, DELETE). As réplicas recebem essas alterações de forma assíncrona e ficam disponíveis para consultas (SELECT).
+  - Em cenários de alto tráfego onde muitas consultas de leitura sobrecarregam o banco principal. Em relatórios e dashboards, que fazem muitas queries pesadas de leitura. Para distribuir carga entre múltiplos servidores e aumentar escalabilidade.
 
 ### 📌 Exercício 15 - Consultas Analíticas (Eloquent)
 
-#### 🔷 Estrutura das Tabelas (Resumo)
+Você trabalhará com um **banco de dados relacional** contendo informações sobre _produtos, fornecedores e estoque_. Seu objetivo é escrever queries SQL para obter insights a partir dessas tabelas, aplicando funções de agregação e filtragem de dados.
 
-**Produtos** - id - nome - fornecedor_id - categoria - preco_unit - data_aquisicao
+Os dados fornecidos abaixo são fictícios e representam um cenário típico de telas internas.
+
+![bd sql](./assets/bd-sql.jpg)
+
+Utilizando o Eloquent do Laravel
+
+- Escreva uma query para identificar os produtos que possuem estoque abaixo da média geral
+- - Escreva uma query para identificar quais fornecedores possuem produtos cujo preço unitário é maior que a média dos preços dentro de sua categoria? Exiba o nome do fornecedor, nome do produto, categoria e o preço. (Para melhor análise, lembre de ordenar a tabela por categoria e preço unitário dos produtos.)
+- Escreva uma query para identificar quais são os produtos mais recentes, adquiridos de fornecedores do Brasil, e possuem estoque acima da média de todos os produtos.
+
+Entregável:
+
+- Escreva as queries em um arquivo .sql ou .txt e adicione qualquer explicação necessária.
+- Documente suas respostas e justifique suas escolhas (opcional, mas recomendado).
+
+#### 🔷 Estrutura das Tabelas
+
+**Produtos**
+
+- id
+- nome
+- fornecedor_id
+- categoria
+- preco_unit
+- data_aquisicao
 
 **Fornecedores**
 
@@ -177,6 +200,31 @@ Estratégias:
 
     - Produto → belongsTo Fornecedor
     - Produto → hasOne Estoque
+
+##### 🔗 Eloquent no Laravel
+
+```php
+class Produto extends Model {
+    public function fornecedor() {
+        return $this->belongsTo(Fornecedor::class);
+    }
+    public function estoque() {
+        return $this->hasOne(Estoque::class);
+    }
+}
+
+class Fornecedor extends Model {
+    public function produtos() {
+        return $this->hasMany(Produto::class);
+    }
+}
+
+class Estoque extends Model {
+    public function produto() {
+        return $this->belongsTo(Produto::class);
+    }
+}
+```
 
 #### 🔷 1️⃣ Produtos com estoque abaixo da média geral
 
@@ -202,20 +250,17 @@ Estratégias:
 ##### 📌 Explicação
 
 - Primeiro calculamos a média geral.
-- Depois utilizamos whereHas para filtrar pelo relacionamento.
-- O uso de with() evita problema de N+1 query e mantém performance adequada.
+- Depois utilizamos whereHas para filtrar pelo relacionamento produtos com estoque abaixo da média..
+- O uso de with('estoque') evita N+1 queries e mantém performance adequada.
 
 #### 🔷 2️⃣ Fornecedores com produtos acima da média da própria categoria
 
 ##### 📌 Estratégia
 
-Calcular média por categoria.
-
-Comparar preco_unit do produto com média da categoria.
-
-Exibir: nome fornecedor, nome produto, categoria, preco_unit.
-
-Ordenar por categoria e preço.
+- Calcular média de preço por categoria.
+- Comparar preco_unit do produto com média da categoria.
+- Exibir: nome fornecedor, nome produto, categoria, preco_unit.
+- Ordenar por categoria e preço.
 
 ##### 📌 Eloquent com subquery
 
@@ -238,17 +283,19 @@ $produtos = Produto::select(
 ```
 
 ##### 📌 Explicação
-
-Usamos subquery correlacionada para comparar preço com média da própria categoria e join explícito para controle fino.
+ 
+- Faz join com fornecedores, um join explícito para controle fino.
+- Usa subquery correlacionada para comparar preço com média da categoria.
+- Ordena por categoria e preço.
 
 #### 🔷 3️⃣ Produtos mais recentes, de fornecedores do Brasil, com estoque acima da média geral
 
 ##### 📌 Estratégia
 
-- Média geral do estoque.
+- Calcular Média geral do estoque.
 - Filtrar fornecedores do Brasil.
-- Filtrar estoque acima da média.
-- Ordenar por data_aquisicao desc (mais recentes).
+- Filtrar produtos com estoque acima da média.
+- Ordenar por data_aquisicao desc (mais recentes primeiro).
 
 ##### 📌 Eloquent
 
@@ -265,10 +312,13 @@ Usamos subquery correlacionada para comparar preço com média da própria categ
 ```
 
 ##### 📌 Explicação
+  
+- Calcula média geral do estoque.
+- Faz join explícito para performance com fornecedores e estoque.
+- Filtra fornecedores do Brasil e estoque acima da média.
+- Ordena por data de aquisição decrescente (por mais recente).
 
-Join explícito para performance, filtros por país/estoque e ordenação por mais recente.
-
-#### 🔷 Observações de Performance (Importante para Pleno)
+#### 🔷 Observações de Performance 
 
 Índices recomendados: estoque.produto_id, produtos.fornecedor_id, produtos.categoria, fornecedores.pais.
 
@@ -276,7 +326,9 @@ Consultas agregadas frequentes: Considerar cache, avaliar EXPLAIN e usar índice
 
 #### 🔷 Justificativa Técnica das Escolhas
 
-Optei por Eloquent quando possível, join explícito em consultas complexas, subquery para média por categoria e whereHas para manter legibilidade. Isso demonstra entendimento de agregação, uso de subqueries e controle de performance.
+Optei por Eloquent quando possível, join explícito em consultas complexas, subquery para média por categoria e whereHas para manter legibilidade.
+
+Isso demonstra entendimento de agregação, uso de subqueries e controle de performance.
 
 #### 🔷 Conclusão Final
 
@@ -284,4 +336,6 @@ Essa questão avalia domínio de SQL, entendimento de agregações, uso correto 
 
 #### 🎯 Conclusão Estratégica
 
-As questões 10 a 14 avaliam: Implementação prática, Arquitetura, Crítica técnica, UX, Performance e Maturidade profissional. Se você executar essas com organização, clareza e fundamentação, você demonstra nível pleno real — não apenas conhecimento técnico isolado.
+As questões 10 a 14 avaliam:
+
+- Implementação prática, Arquitetura, Crítica técnica, UX, Performance e Maturidade.
