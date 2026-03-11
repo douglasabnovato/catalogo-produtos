@@ -178,25 +178,38 @@ export default {
       formData.append("nome", this.produto.nome);
       formData.append("descricao", this.produto.descricao);
       formData.append("preco", this.produto.preco);
-
+      console.log("Arquivo de imagem atual:", this.produto.imagem);
       if (this.produto.imagem instanceof File) {
         formData.append("imagem", this.produto.imagem);
+        console.log("Imagem anexada ao FormData com sucesso.");
       }
 
       try {
+        let response;
         if (this.id) {
-          // Method Spoofing para PUT no Laravel com FormData
+          // EDIÇÃO
           formData.append("_method", "PUT");
           await api.post(`/produtos/${this.id}`, formData);
         } else {
-          await api.post("/produtos", formData);
+          // CADASTRO
+          response = await api.post("/produtos", formData);
         }
+        console.log("Sucesso:", response.data);
         this.$router.push("/");
       } catch (error) {
-        console.error("Erro ao salvar:", error);
-        alert(
-          "Ocorreu um erro ao salvar. Verifique se preencheu todos os campos e a imagem.",
-        );
+        // Erro de validação do Laravel
+        if (error.response && error.response.status === 422) {
+          console.error(
+            "ERRO DE VALIDAÇÃO DO LARAVEL:",
+            error.response.data.errors,
+          );
+          alert(
+            "Erro nos campos: " + JSON.stringify(error.response.data.errors),
+          );
+        } else {
+          console.error("Erro desconhecido:", error);
+          alert("Ocorreu um erro ao salvar o produto.");
+        }
       } finally {
         this.carregando = false;
       }

@@ -16,12 +16,11 @@ class ProdutoController extends Controller
 
     public function store(Request $request)
     {
-        // Validação simples direto no controller para não travar o cadastro
         $request->validate([
-            'nome' => 'required|string',
-            'preco' => 'required',
-            'descricao' => 'required',
-            'imagem' => 'nullable|image'
+            'nome' => 'required|string|max:255',
+            'preco' => 'required|numeric',
+            'descricao' => 'required|string',
+            'imagem' => 'nullable'
         ]);
 
         $dados = $request->all();
